@@ -10,7 +10,7 @@ import com.nativecitizens.basicstatecodelab.ui.theme.BasicStateCodeLabTheme
 
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
-    WaterCounter(modifier)
+    StatefulCounter()
 }
 
 
