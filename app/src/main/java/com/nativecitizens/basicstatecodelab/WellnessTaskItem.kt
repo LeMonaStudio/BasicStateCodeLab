@@ -8,10 +8,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nativecitizens.basicstatecodelab.model.WellnessTask
 import com.nativecitizens.basicstatecodelab.ui.theme.BasicStateCodeLabTheme
 
 
@@ -48,8 +50,8 @@ fun StatelessWellnessTaskItem(
 
 
 @Composable
-fun StatefulWellnessTaskItem(taskName: String, modifier: Modifier = Modifier){
-    var checkedState by remember {
+fun StatefulWellnessTaskItem(taskName: String, onClose: () -> Unit, modifier:Modifier = Modifier){
+    var checkedState by rememberSaveable() {
         mutableStateOf(false)
     }
 
@@ -59,9 +61,10 @@ fun StatefulWellnessTaskItem(taskName: String, modifier: Modifier = Modifier){
         onCheckedChange = {
             checkedState = !checkedState
         },
-        onClose = {},
+        onClose = onClose,
         modifier = modifier
     )
+
 }
 
 
@@ -71,6 +74,6 @@ fun PreviewWellnessTaskItem(){
     BasicStateCodeLabTheme {
         StatefulWellnessTaskItem(
             "Task #1",
-            modifier = Modifier.fillMaxWidth())
+            modifier = Modifier.fillMaxWidth(), onClose = {})
     }
 }
