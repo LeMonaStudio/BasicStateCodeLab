@@ -3,34 +3,37 @@ package com.nativecitizens.basicstatecodelab
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.nativecitizens.basicstatecodelab.data.WellnessViewModel
 import com.nativecitizens.basicstatecodelab.model.WellnessTask
-import com.nativecitizens.basicstatecodelab.model.WellnessTasksList
+import com.nativecitizens.basicstatecodelab.ui.components.StatefulCounter
+import com.nativecitizens.basicstatecodelab.ui.components.WellnessTasksList
 import com.nativecitizens.basicstatecodelab.ui.theme.BasicStateCodeLabTheme
 
 
 @Composable
-fun WellnessScreen(modifier: Modifier = Modifier) {
+fun WellnessScreen(
+    modifier: Modifier = Modifier,
+    wellnessViewModel: WellnessViewModel = viewModel()
+) {
     Column(modifier = modifier) {
         StatefulCounter()
 
-        val list = remember { getWellnessTaskList().toMutableStateList() }
+        val list = wellnessViewModel.tasks
 
         WellnessTasksList(
             modifier = Modifier.padding(horizontal = 8.dp),
-            list = list
-        ) { task: WellnessTask ->
-            list.remove(task)
-        }
+            list = list,
+            onCheckedChange = {task, checkState ->
+                wellnessViewModel.updateTaskChecked(task, checkState)
+            },
+            onClose = { task: WellnessTask -> wellnessViewModel.remove(task)}
+        )
     }
 }
-
-fun getWellnessTaskList(): List<WellnessTask> =
-    List(30) { i -> WellnessTask(i, "Task # $i") }
 
 
 @Preview
