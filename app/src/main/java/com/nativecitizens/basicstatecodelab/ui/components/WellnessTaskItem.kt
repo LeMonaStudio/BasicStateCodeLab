@@ -1,4 +1,4 @@
-package com.nativecitizens.basicstatecodelab
+package com.nativecitizens.basicstatecodelab.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -8,17 +8,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nativecitizens.basicstatecodelab.model.WellnessTask
 import com.nativecitizens.basicstatecodelab.ui.theme.BasicStateCodeLabTheme
 
 
 @Composable
-fun StatelessWellnessTaskItem(
+fun WellnessTaskItem(
     taskName: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -49,31 +47,15 @@ fun StatelessWellnessTaskItem(
 }
 
 
-@Composable
-fun StatefulWellnessTaskItem(taskName: String, onClose: () -> Unit, modifier:Modifier = Modifier){
-    var checkedState by rememberSaveable() {
-        mutableStateOf(false)
-    }
-
-    StatelessWellnessTaskItem(
-        taskName = taskName,
-        checked = checkedState,
-        onCheckedChange = {
-            checkedState = !checkedState
-        },
-        onClose = onClose,
-        modifier = modifier
-    )
-
-}
-
-
 @Preview
 @Composable
 fun PreviewWellnessTaskItem(){
     BasicStateCodeLabTheme {
-        StatefulWellnessTaskItem(
+        WellnessTaskItem(
             "Task #1",
-            modifier = Modifier.fillMaxWidth(), onClose = {})
+            checked = false,
+            onCheckedChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            onClose = {})
     }
 }
